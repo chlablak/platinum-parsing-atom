@@ -1,20 +1,17 @@
 # See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
 'context-menu':
   'atom-text-editor': [
-    {
-      'label': 'Toggle platinum-parsing-atom'
-      'command': 'platinum-parsing-atom:toggle'
-    }
+
   ]
 'menu': [
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'platinum-parsing-atom'
+      'label': 'Platinum Parsing'
       'submenu': [
         {
-          'label': 'Toggle'
-          'command': 'platinum-parsing-atom:toggle'
+          'label': 'New project'
+          'command': 'platinum-parsing-atom:new-project'
         }
       ]
     ]

@@ -2,16 +2,19 @@
   "name": "platinum-parsing-atom",
   "main": "./lib/platinum-parsing-atom",
   "version": "0.0.0",
-  "description": "A short description of your package",
+  "description": "Atom package for quick access to Platinum Parsing features",
   "keywords": [
+    "platinum",
+    "parsing",
+    "pp"
   ],
   "activationCommands": {
-    "atom-workspace": "platinum-parsing-atom:toggle"
+    "atom-workspace": "platinum-parsing-atom:new-project"
   },
-  "repository": "https://github.com/atom/platinum-parsing-atom",
+  "repository": "https://github.com/chlablak/platinum-parsing-atom",
   "license": "MIT",
   "engines": {
-    "atom": ">=1.0.0 <2.0.0"
+    "atom": "*"
   },
   "dependencies": {
   }
