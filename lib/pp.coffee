@@ -1,4 +1,5 @@
-{BufferedProcess} = require('atom')
+{BufferedProcess, File} = require 'atom'
+OP = require(atom.packages.resolvePackagePath 'output-panel')
 
 module.exports = class PP
   constructor: (serializedState) ->
@@ -33,6 +34,10 @@ module.exports = class PP
     console.log "exec: #{options.command} #{options.args}"
     @proc = new BufferedProcess(options)
 
+  # Execute with output-panel
+  execOP: (args) ->
+    OP.run('auto', @command, @cargs.concat args)
+
   # stdout callback
   stdout: (output) ->
     console.log "stdout: #{output}"
@@ -45,3 +50,7 @@ module.exports = class PP
   exit: (code) ->
     console.log "exit: #{code}"
     @proc = null
+
+  # check if a path is a PP project
+  isProjectPath: (path) ->
+    (new File(path + '/pp.yaml')).existsSync()

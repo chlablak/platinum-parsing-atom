@@ -11,11 +11,15 @@
   "activationCommands": {
     "atom-workspace": "platinum-parsing-atom:new-project"
   },
+  "activationHooks": [
+    "language-ebnf:grammar-used"
+  ],
   "repository": "https://github.com/chlablak/platinum-parsing-atom",
   "license": "MIT",
   "engines": {
     "atom": "*"
   },
   "dependencies": {
+    "output-panel": "latest"
   }
 }

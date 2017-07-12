@@ -12,6 +12,10 @@
         {
           'label': 'New project'
           'command': 'platinum-parsing-atom:new-project'
+        },
+        {
+          'label': 'Build project'
+          'command': 'platinum-parsing-atom:build-project'
         }
       ]
     ]

@@ -30,6 +30,7 @@ module.exports = PlatinumParsingAtom =
 
     # Register commands
     @subscriptions.add atom.commands.add 'atom-workspace', 'platinum-parsing-atom:new-project': => @newProject()
+    @subscriptions.add atom.commands.add 'atom-workspace', 'platinum-parsing-atom:build-project': => @buildProject()
 
   deactivate: ->
     @subscriptions.dispose()
@@ -46,8 +47,24 @@ module.exports = PlatinumParsingAtom =
         if folders?
           path = (new Directory(folders[0])).getRealPathSync() + '/'
           @pp.path path
-          @pp.exec ['new', '-n', name]
+          @pp.execOP ['new', '-n', name]
           atom.open
             pathsToOpen: [path + name + '/']
             newWindow: true
       )
+
+  buildProject: ->
+    path = atom.project.getPaths().filter(@pp.isProjectPath)
+    if path.length == 0
+      atom.confirm
+        message: 'Build error'
+        detailedMessage: 'No PP project opened'
+        buttons: ['Ok']
+    else if path.length > 1
+      atom.confirm
+        message: 'Build error'
+        detailedMessage: 'More than 1 PP project are opened'
+        buttons: ['Ok']
+    else
+      @pp.path path
+      @pp.execOP ['build']
