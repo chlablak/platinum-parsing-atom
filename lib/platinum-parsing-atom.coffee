@@ -1,6 +1,10 @@
-{CompositeDisposable} = require 'atom'
+{CompositeDisposable, Directory} = require 'atom'
+Dialog = require './dialog'
+PP = require './pp'
 
 module.exports = PlatinumParsingAtom =
+  dialog: null
+  pp: null
   subscriptions: null
   config:
     ppPath:
@@ -18,6 +22,9 @@ module.exports = PlatinumParsingAtom =
       description: 'Allow **pp** to reuse previous computation to save time.'
 
   activate: (state) ->
+    @dialog = new Dialog(state.dialogState)
+    @pp = new PP(state.ppState)
+
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
 
@@ -26,8 +33,21 @@ module.exports = PlatinumParsingAtom =
 
   deactivate: ->
     @subscriptions.dispose()
+    @dialog.destroy()
+    @pp.destroy()
 
   serialize: ->
+    dialogState: @dialog.serialize()
+    ppState: @pp.serialize()
 
   newProject: ->
-    console.log 'newProject fired !'
+    @dialog.ask 'Enter the name of the new project, you will choose folder afterwards:', (name) =>
+      atom.pickFolder((folders) =>
+        if folders?
+          path = (new Directory(folders[0])).getRealPathSync() + '/'
+          @pp.path path
+          @pp.exec ['new', '-n', name]
+          atom.open
+            pathsToOpen: [path + name + '/']
+            newWindow: true
+      )
