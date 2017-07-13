@@ -9,7 +9,11 @@
     "pp"
   ],
   "activationCommands": {
-    "atom-workspace": "platinum-parsing-atom:new-project"
+    "atom-workspace": [
+      "platinum-parsing-atom:new-project",
+      "platinum-parsing-atom:build-project",
+      "platinum-parsing-atom:parse-file"
+    ]
   },
   "activationHooks": [
     "language-ebnf:grammar-used"

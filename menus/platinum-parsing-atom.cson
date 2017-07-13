@@ -16,6 +16,10 @@
         {
           'label': 'Build project'
           'command': 'platinum-parsing-atom:build-project'
+        },
+        {
+          'label': 'Parse file'
+          'command': 'platinum-parsing-atom:parse-file'
         }
       ]
     ]

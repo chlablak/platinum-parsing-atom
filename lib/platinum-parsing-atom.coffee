@@ -11,7 +11,7 @@ module.exports = PlatinumParsingAtom =
       type: 'string'
       default: ''
       order: 10
-      title: 'Path to **pp** executable'
+      title: 'Path to executable: pp'
       description: 'By default executables are expected to be accessing directly from the *PATH*.<br/>
                     You can override this behaviour by giving the full path by yourself.'
     useWork:
@@ -31,6 +31,9 @@ module.exports = PlatinumParsingAtom =
     # Register commands
     @subscriptions.add atom.commands.add 'atom-workspace', 'platinum-parsing-atom:new-project': => @newProject()
     @subscriptions.add atom.commands.add 'atom-workspace', 'platinum-parsing-atom:build-project': => @buildProject()
+    @subscriptions.add atom.commands.add 'atom-workspace', 'platinum-parsing-atom:parse-file': => @parseFile()
+
+    console.log 'platinum-parsing-atom activated.'
 
   deactivate: ->
     @subscriptions.dispose()
@@ -53,7 +56,7 @@ module.exports = PlatinumParsingAtom =
             newWindow: true
       )
 
-  buildProject: ->
+  findProject: (callback) ->
     path = atom.project.getPaths().filter(@pp.isProjectPath)
     if path.length == 0
       atom.confirm
@@ -66,5 +69,15 @@ module.exports = PlatinumParsingAtom =
         detailedMessage: 'More than 1 PP project are opened'
         buttons: ['Ok']
     else
+      callback path
+
+  buildProject: ->
+    @findProject (path) =>
       @pp.path path
       @pp.execOP ['build']
+
+  parseFile: ->
+    @findProject (path) =>
+      @dialog.ask 'Enter the file to parse (relatively to project path):', (file) =>
+        @pp.path path
+        @pp.execOP ['build', '--no-template', '--no-test', '-t', file]

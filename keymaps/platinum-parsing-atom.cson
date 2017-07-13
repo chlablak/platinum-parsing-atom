@@ -10,3 +10,4 @@
 'atom-workspace':
   'ctrl-alt-n': 'platinum-parsing-atom:new-project'
   'ctrl-alt-b': 'platinum-parsing-atom:build-project'
+  'ctrl-alt-p': 'platinum-parsing-atom:parse-file'
