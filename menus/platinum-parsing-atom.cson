@@ -20,6 +20,10 @@
         {
           'label': 'Parse file'
           'command': 'platinum-parsing-atom:parse-file'
+        },
+        {
+          'label': 'Toggle AST Viewer'
+          'command': 'platinum-parsing-atom:toggle-ast-viewer'
         }
       ]
     ]

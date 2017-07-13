@@ -1,6 +1,7 @@
 {CompositeDisposable, Directory} = require 'atom'
 Dialog = require './dialog'
 PP = require './pp'
+AstViewer = require './ast-viewer'
 
 module.exports = PlatinumParsingAtom =
   dialog: null
@@ -24,6 +25,7 @@ module.exports = PlatinumParsingAtom =
   activate: (state) ->
     @dialog = new Dialog(state.dialogState)
     @pp = new PP(state.ppState)
+    @astViewer = new AstViewer(state.astViewerState)
 
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
@@ -32,6 +34,7 @@ module.exports = PlatinumParsingAtom =
     @subscriptions.add atom.commands.add 'atom-workspace', 'platinum-parsing-atom:new-project': => @newProject()
     @subscriptions.add atom.commands.add 'atom-workspace', 'platinum-parsing-atom:build-project': => @buildProject()
     @subscriptions.add atom.commands.add 'atom-workspace', 'platinum-parsing-atom:parse-file': => @parseFile()
+    @subscriptions.add atom.commands.add 'atom-workspace', 'platinum-parsing-atom:toggle-ast-viewer': => @toggleAstViewer()
 
     console.log 'platinum-parsing-atom activated.'
 
@@ -39,10 +42,12 @@ module.exports = PlatinumParsingAtom =
     @subscriptions.dispose()
     @dialog.destroy()
     @pp.destroy()
+    @astViewer.destroy()
 
   serialize: ->
     dialogState: @dialog.serialize()
     ppState: @pp.serialize()
+    astViewerState: @astViewer.serialize()
 
   newProject: ->
     @dialog.ask 'Enter the name of the new project, you will choose folder afterwards:', (name) =>
@@ -80,4 +85,9 @@ module.exports = PlatinumParsingAtom =
     @findProject (path) =>
       @dialog.ask 'Enter the file to parse (relatively to project path):', (file) =>
         @pp.path path
-        @pp.execOP ['build', '--no-template', '--no-test', '-t', file]
+        @pp.execOP ['build', '--no-template', '--no-test', '-t', file, '--ast-to-html', "#{file}.ast.html"]
+        @astViewer.setAst "#{path}/#{file}.ast.html"
+        @astViewer.show()
+
+  toggleAstViewer: ->
+    @astViewer.toggle()

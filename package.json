@@ -12,7 +12,8 @@
     "atom-workspace": [
       "platinum-parsing-atom:new-project",
       "platinum-parsing-atom:build-project",
-      "platinum-parsing-atom:parse-file"
+      "platinum-parsing-atom:parse-file",
+      "platinum-parsing-atom:toggle-ast-viewer"
     ]
   },
   "activationHooks": [
