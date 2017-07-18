@@ -1,7 +1,7 @@
 {
   "name": "platinum-parsing-atom",
   "main": "./lib/platinum-parsing-atom",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Atom package for quick access to Platinum Parsing features",
   "keywords": [
     "platinum",
@@ -24,6 +24,5 @@
   "engines": {
     "atom": "*"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
